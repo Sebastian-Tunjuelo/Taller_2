@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}"></title>
+</head>
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <ul>
+        
+        <li>
+             <a th:href="@{/params/string(texto='Haceme un pete-te y cerrá el ojete
+             (Yo soy virgen) no te creo un sorete
+             Te mandás la parte y el culo te parten
+             Te la pongo hoy y te la saco el martes
+             Prendete-te-te de este chupete
+             Tiraste más gomas que los del piquete
+             Vení a juguetear con este juguete
+             Como moño de regalo, pegate este paquete')}">no</a> 
+        </li>
+        <li>
+             <a th:href="@{/params/string(texto='hola don pepito')}">hola don jose</a> 
+        </li>
+        <li>
+             <a th:href="@{/params/mix-params(saludo='goku ssj ',numero=5)}">goku?</a> 
+        </li>
+    </ul>
+</body>
+</html>
