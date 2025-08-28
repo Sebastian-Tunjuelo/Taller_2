@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Clientes</title>
+</head>
+<body>
+    <h1 th:text="${titulo}"></h1>
+    <div th:if="${usuario.size() == 0}" th:text="${'La Lista No Tiene Elementos.'}"></div>
+
+    
+    <ul th:each="usuario : ${usuario}">
+        <li th:text="${'Nombre: ' + usuario.getNombre() + ' ' +  'Apellido: ' + usuario.getApellido() + ' ' + 'Correo: ' + usuario.getCorreo() + '.'}"></li>
+    </ul>
+
+</body>
+</html>
