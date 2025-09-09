@@ -1,0 +1,14 @@
+1. creamos el proyecto
+2. inicializamos la base de datos
+3. organizamos las properties
+4. damos el formato de carpetas
+5. creamos las entidades
+6. creamos los controllers
+7. creamos los repositorios
+8. creamos los service
+9. creamos los servideImpl
+10. creamos carpeta templates con index.html
+11. documento qsl en resources
+12. ya papi metiéndole
+
+https://www.youtube.com/watch?v=oF3XmiHgT-I&t=145s
