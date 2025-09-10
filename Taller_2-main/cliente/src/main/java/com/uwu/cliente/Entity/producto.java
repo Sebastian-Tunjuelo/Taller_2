@@ -15,6 +15,18 @@ public class producto {
     private String nombre;
     private String descripcion;
     private double p_unitario;
+    private int stock;
+
+    public producto(){}
+
+
+    public producto(long id, String nombre, String descripcion, double p_unitario, int stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.p_unitario = p_unitario;
+        this.stock = stock;
+    }
     public long getId() {
         return id;
     }
@@ -39,11 +51,14 @@ public class producto {
     public void setP_unitario(double p_unitario) {
         this.p_unitario = p_unitario;
     }
-    public producto(long id, String nombre, String descripcion, double p_unitario) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.p_unitario = p_unitario;
+
+    public int getStock() {
+        return stock;
     }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+   
 
 }
