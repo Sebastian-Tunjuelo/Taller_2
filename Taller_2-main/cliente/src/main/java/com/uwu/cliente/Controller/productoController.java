@@ -55,3 +55,4 @@ public class productoController {
         productoService.deleteProducto(id);
         return "redirect:/producto/";
     }
+}
