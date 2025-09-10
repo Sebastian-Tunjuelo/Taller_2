@@ -7,6 +7,7 @@ import com.uwu.cliente.Entity.cliente;
 public interface clienteService {
     List<cliente> findAllClientes();
     cliente saveCliente (cliente cliente);
+    cliente getClienteById(Long id);
     cliente updaCliente (Long id,cliente cliente);
     void deleteCliente (Long id);
 }
