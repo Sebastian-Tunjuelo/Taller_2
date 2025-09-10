@@ -11,4 +11,5 @@
 11. documento qsl en resources
 12. ya papi metiéndole
 
-https://www.youtube.com/watch?v=oF3XmiHgT-I&t=145s
+el recorrido o llamado del código es primero entidad luego pasamos a repositorio luego pasamos a servicio y llegamos a controlador
+para luego pasar al front
