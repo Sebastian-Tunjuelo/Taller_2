@@ -1,7 +1,6 @@
 package com.uwu.cliente.service;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,23 +34,7 @@ public class clienteServiceImpl implements clienteService {
     public cliente updaCliente(Long id, cliente cliente) {
         //obtenemos valor de cliente
         cliente clienteDb=clienteRepository.findById(id).get();
-        //validaciones
-        //   valor no nulo                        o        informacion vacia  
-        if (Objects.nonNull(cliente.getNombre()) &&!"".equalsIgnoreCase(cliente.getNombre())) {
-            //ingnorecase ignora mayusculas y minusculas 
-            //if (cliente.getNombre() != null && !cliente.getNombre().isEmpty())
-            if ("pedro".equals(cliente.getNombre())) {
-                clienteDb.setNombre("goku");
-            }else{
-            clienteDb.setNombre(cliente.getNombre());
-        }
-        }
-          if (Objects.nonNull(cliente.getApellido()) &&!"".equalsIgnoreCase(cliente.getApellido())) {
-            clienteDb.setApellido(cliente.getApellido());
-        }
-          if (Objects.nonNull(cliente.getCorreo()) &&!"".equalsIgnoreCase(cliente.getCorreo())) {
-            clienteDb.setCorreo(cliente.getCorreo());
-        }
+        
         return clienteRepository.save(clienteDb);
     }
 
