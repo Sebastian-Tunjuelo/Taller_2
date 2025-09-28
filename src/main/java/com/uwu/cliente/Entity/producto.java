@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+//import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
 
@@ -22,10 +23,13 @@ public class producto {
     @PositiveOrZero(message = "COMO VAMOS A VENDER ALGO QUE NO TENEMOS Y ADEMAS DEBEMOS (SI SOY)")
     private int stock;
 
+    //@OneToMany(mappedBy = "producto")
+    //private List<detalle> detalles;
+
     public producto() {
     }
 
-    public producto(long id, String nombre, String descripcion, double p_unitario, int stock) {
+    public producto(long id, String nombre, String descripcion,double p_unitario, int stock) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -72,5 +76,6 @@ public class producto {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
 
 }

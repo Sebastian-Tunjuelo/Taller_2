@@ -1,6 +1,7 @@
 package com.uwu.cliente.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -35,15 +37,20 @@ public class cliente {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date CreateAt;
 
+    @OneToMany(mappedBy = "cliente")
+    private List<factura> factura;
+
     public cliente() {
     }
 
-    public cliente(long id, String nombre, String apellido, String correo, Date createAt) {
+    public cliente(long id,String nombre,String apellido,String correo, Date createAt,
+            List<factura> factura) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         CreateAt = createAt;
+        this.factura = factura;
     }
 
     public long getId() {
@@ -84,6 +91,14 @@ public class cliente {
 
     public void setCreateAt(Date createAt) {
         CreateAt = createAt;
+    }
+
+    public List<factura> getFactura() {
+        return factura;
+    }
+
+    public void setFactura(List<factura> factura) {
+        this.factura = factura;
     }
 
 }

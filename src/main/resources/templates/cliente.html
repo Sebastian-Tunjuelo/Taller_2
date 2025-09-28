@@ -37,7 +37,10 @@
                     <td th:text="${cliente.createAt}">Fecha</td>
                     <td>
                         <a th:href="@{/cliente/editar/{id}(id=${cliente.id})}" class="btn btn-info btn-sm">Editar</a>
-                        <a th:href="@{/cliente/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a th:href="@{/cliente/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
+                            Eliminar
+                        </a>
                     </td>
                 </tr>
             </tbody>

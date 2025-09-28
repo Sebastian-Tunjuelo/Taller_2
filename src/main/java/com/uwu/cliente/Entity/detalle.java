@@ -1,30 +1,34 @@
-/*package com.uwu.cliente.Entity;
+package com.uwu.cliente.Entity;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
 
 @Entity
 public class detalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long nro_Item;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "id_factura")
     private factura factura;
-    @OneToMany
+
+    @ManyToOne
     @JoinColumn(name = "id_producto") 
     private producto producto;
+
     private int cantidad;
     private float valor, descuento_Unitario;
 
     public detalle(){}
 
-    public detalle(long nro_Item, com.uwu.cliente.Entity.factura factura, com.uwu.cliente.Entity.producto producto,
+    public detalle(long nro_Item, factura factura, producto producto,
             int cantidad, float valor, float descuento_Unitario) {
         this.nro_Item = nro_Item;
         this.factura = factura;
@@ -82,8 +86,5 @@ public class detalle {
         this.descuento_Unitario = descuento_Unitario;
     }
 
-    
-   
 
 }
-*/
