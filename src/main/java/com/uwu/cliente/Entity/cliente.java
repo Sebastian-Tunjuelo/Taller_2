@@ -40,17 +40,18 @@ public class cliente {
     @OneToMany(mappedBy = "cliente")
     private List<factura> factura;
 
-    public cliente() {
-    }
+    private boolean estado = true;
 
-    public cliente(long id,String nombre,String apellido,String correo, Date createAt,
-            List<factura> factura) {
+    public cliente() {}
+
+    public cliente(long id, String nombre, String apellido, String correo, Date createAt,List<factura> factura, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         CreateAt = createAt;
         this.factura = factura;
+        this.estado = estado;
     }
 
     public long getId() {
@@ -101,4 +102,14 @@ public class cliente {
         this.factura = factura;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+        
+    
 }

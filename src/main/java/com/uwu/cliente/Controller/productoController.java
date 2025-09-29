@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/producto")
@@ -27,7 +29,7 @@ public class productoController {
     public String listaProductos(Model model) {
         model.addAttribute("titulo", "Lista de Productos");
         model.addAttribute("productos", productoService.findAllProductos());
-        return "producto";
+        return "/Producto/producto";
     }
 
     @GetMapping("/nuevo_producto")
@@ -35,7 +37,7 @@ public class productoController {
         producto producto = new producto();
         model.addAttribute("titulo", "Crear Nuevo Producto");
         model.addAttribute("producto", producto);
-        return "crearProducto";
+        return "/Producto/crearProducto";
     }
 
     @PostMapping("")
@@ -50,14 +52,14 @@ public class productoController {
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditarProducto(@PathVariable Long id, Model model) {
         model.addAttribute("producto", productoService.getProductoById(id));
-        return "editarProducto";
+        return "/Producto/editarProducto";
     }
 
     @PostMapping("/editar/{id}")
     public String actualizarProducto(@PathVariable Long id, @Valid @ModelAttribute("producto") producto producto,
             BindingResult result) {
         if (result.hasErrors()) {
-            return "editarProducto";
+            return "/Producto/editarProducto";
         }
         productoService.updaProducto(id, producto);
         return "redirect:/producto/";
@@ -68,4 +70,10 @@ public class productoController {
         productoService.deleteProducto(id);
         return "redirect:/producto/";
     }
+
+    @GetMapping("/{id}")
+    public String esconderProducto(@PathVariable String param) {
+        return new String();
+    }
+    
 }

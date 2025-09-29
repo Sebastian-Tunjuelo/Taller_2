@@ -31,7 +31,7 @@ public class clienteController {
         model.addAttribute("titulo", "uwu que si sirva si dios quiere y lo permite amen");
         model.addAttribute("clientes", clienteService.findAllClientes());
         // model.addAttribute("productos", productoService.findAllProductos());
-        return "cliente";
+        return "/Cliente/cliente";
     }
 
     // esta es la url en la que esta
@@ -41,7 +41,7 @@ public class clienteController {
         model.addAttribute("titulo", "parece que si sirvio :)");
         model.addAttribute("cliente", cliente);
         // esta es la url a la que va
-        return "crearClientes";
+        return "Cliente/crearClientes";
     }
 
     @PostMapping("")
@@ -64,14 +64,14 @@ public class clienteController {
     // pathvariable extrae los valores directamente desde la url
     public String mostarFormularioEditarCliente(@PathVariable Long id, Model model) {
         model.addAttribute("cliente", clienteService.getClienteById(id));
-        return "editarCliente";
+        return "/Cliente/editarCliente";
     }
 
     @PostMapping("/editar/{id}")
     public String actualizarCliente(@PathVariable Long id, @Valid @ModelAttribute("cliente") cliente cliente,
             BindingResult result) {
         if (result.hasErrors()) {
-            return "editarCliente"; // Vuelve al formulario mostrando los errores
+            return "/Cliente/editarCliente"; // Vuelve al formulario mostrando los errores
         }
         clienteService.updaCliente(id, cliente);
         return "redirect:/cliente/";

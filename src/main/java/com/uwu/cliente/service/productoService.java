@@ -9,9 +9,11 @@ public interface productoService {
 
     producto getProductoById(Long id);
 
-    producto saveProducto(producto cliente);
+    producto saveProducto(producto producto);
 
-    producto updaProducto(Long id, producto cliente);
+    producto updaProducto(Long id, producto producto);
+
+    producto hideProducto(Long id, producto producto);
 
     void deleteProducto(Long id);
 }

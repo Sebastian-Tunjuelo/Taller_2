@@ -38,10 +38,20 @@ public class productoServiceImpl implements productoService {
         productoRepository.deleteById(id);
     }
 
+    
+
     @Override
 
     public producto getProductoById(Long id) {
         return productoRepository.findById(id).get();
     }
 
+    @Override
+    public producto hideProducto(Long id, producto producto) {
+        
+        
+        producto.setEstado(false);
+
+        return productoRepository.save(producto);
+    }
 }

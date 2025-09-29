@@ -11,7 +11,7 @@ import com.uwu.cliente.repository.clienteRepository;
 @Service
 public class clienteServiceImpl implements clienteService {
 
-    // inyetamos repositorio
+    // inyectamos repositorio
     @Autowired
     clienteRepository clienteRepository;
 
