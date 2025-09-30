@@ -2,47 +2,49 @@ package com.uwu.cliente.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uwu.cliente.Entity.factura;
+import com.uwu.cliente.repository.facturaRepository;
 
 @Service
 public class facturaServiceImpl implements facturaService{
 
+    @Autowired
+    facturaRepository facturaRepository;
+
     @Override
     public List<factura> findAllFacturas() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllFacturas'");
+       return facturaRepository.findAll();
     }
 
     @Override
     public factura getFacturaById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFacturaById'");
+        return facturaRepository.findById(id).get();
     }
 
     @Override
     public factura saveFactura(factura factura) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveFactura'");
+       return facturaRepository.save(factura);
     }
 
     @Override
     public factura updateFactura(Long id, factura factura) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateFactura'");
+        factura facturaDb =facturaRepository.findById(id).get();
+        facturaDb.setCliente(factura.getCliente());
+        facturaDb.setDescuento_Total(factura.getDescuento_Total());
+        facturaDb.setDetalles(factura.getDetalles());
+        facturaDb.setFecha_Compra(factura.getFecha_Compra());
+        facturaDb.setSubtotal(factura.getSubtotal());
+        facturaDb.setValor_total(factura.getValor_total());
+     return facturaRepository.save(facturaDb);
     }
 
-    @Override
-    public List<factura> findByClienteId(Long clienteId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByClienteId'");
-    }
 
     @Override
     public void deleteFactura(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFactura'");
+       facturaRepository.deleteById(id);
     }
     
 }

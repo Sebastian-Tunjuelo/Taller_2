@@ -1,11 +1,211 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Factura de Venta - Plantilla</title>
+  <style>
+    :root {
+      --border: #111;
+      --muted: #666
+    }
+
+    body {
+      padding: 20px;
+      background: #f6f6f6
+    }
+
+    .paper {
+      width: 85%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 18px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .08)
+    }
+
+    .header {
+      border: 2px solid var(--border);
+      padding: 6px 10px
+    }
+
+    .header .title {
+      font-weight: 700;
+      text-align: center;
+      font-size: 18px
+    }
+
+    .header .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      gap: 10px
+    }
+
+    .box {
+      border: 1px solid var(--border);
+      padding: 6px
+    }
+
+    .client {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px
+    }
+
+    .details {
+      margin-top: 12px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed
+    }
+
+    thead th {
+      border: 2px solid var(--border);
+      padding: 8px;
+      font-weight: 700
+    }
+
+    tbody td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top
+    }
+
+    tbody td.center {
+      text-align: center
+    }
+
+    .right {
+      text-align: right
+    }
+
+    .totals {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end
+    }
+
+    .totals .summary {
+      width: 360px
+    }
+
+    .summary .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border: 1px solid var(--border)
+    }
+
+    .summary .row.total {
+      font-weight: 800;
+      font-size: 16px
+    }
+  </style>
 </head>
+
 <body>
+  <div class="paper">
+    <div class="header">
+      <div class="title">FACTURA DE VENTA NRO <span th:text="${factura.nro_Venta}">(ID ENCABEZADO)</span></div>
+      <div class="meta">
+        <div class="box" style="flex:1">Fecha de compra: <strong th:text="${factura.fecha_Compra}">(Fecha +
+            Hora)</strong></div>
+        <div style="flex:0 0 360px" class="box">
+          <div><strong>CLIENTE:</strong></div>
+          <div style="display:flex; gap:6px; margin-top:6px">
+            <div style="flex:0 0 90px; border:1px solid var(--border); padding:6px">
+              <span th:text="${cliente.id}">ID Cliente</span>
+            </div>
+            <div style="flex:1; border:1px solid var(--border); padding:6px">
+              <span th:text="${cliente.nombre} + ' ' + ${cliente.apellido}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
+    <div class="details">
+      <div style="text-align:center; font-weight:700; margin:8px 0">DETALLES DE COMPRA</div>
+
+      <table aria-label="detalles de compra">
+        <thead>
+          <tr>
+            <th style="width:40px">Item</th>
+            <th style="width:340px">Descripción</th>
+            <th style="width:60px">Cant</th>
+            <th style="width:90px">Vlr Unit</th>
+            <th style="width:90px">Subtotal</th>
+            <th style="width:60px">Dcto.</th>
+            <th style="width:120px">Total</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr th:each="detalle: ${detalles}">
+            <td th:text="${detalle.nro_Item}"></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="${detalle.cantidad}"></td>
+            <td th:text="${}">$ 0.00</td>
+            <td th:text="${}">$ 0.00</td>
+            <td th:text="${}">$ 0.00</td>
+            <td th:text="${}">$ 0.00</td>
+          </tr>
+          <tr>
+            <!--
+  <form th:action="@{/ventas/factura/{clienteId}/agregarDetalle(ClienteId=${Cl.nro_Venta})}"
+        method="post">
+    <td>
+      <div style="display:flex; gap:8px; align-items:center">
+        <input type="number" name="productoId" placeholder="ID producto" required
+               style="width:120px; padding:6px" />
+        <input type="number" name="cantidad" min="1" value="1" required
+               style="width:80px; padding:6px" />
+        <input type="number" name="descuento" min="0" step="0.01" value="0"
+               style="width:80px; padding:6px" placeholder="Dcto" />
+        <button type="submit" style="padding:6px 10px">Agregar</button>
+      </div>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </form>
+</tr>
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="summary">
+          <div class="row">
+            <div class="muted">SUBTOTAL</div>
+            <div class="right"
+              th:text="${}">
+              $ 0.00</div>
+          </div>
+          <div class="row">
+            <div class="muted">DESCUENTO</div>
+            <div class="right"
+              th:text="${}">
+              $ 0.00</div>
+          </div>
+          <div class="row total">
+            <div>TOTAL A PAGAR</div>
+            <div class="right"
+              th:text="${}">
+              $ 0.00</div>
+          </div>
+          <a th:href="@{/}" style="display:inline-block; margin-top:8px">guardar</a>
+          <a th:href="@{/}" style="display:inline-block; margin-left:8px; margin-top:8px">volver</a>
+        </div>
+      </div>
+-->
+    </div>
+  </div>
 </body>
+
 </html>
