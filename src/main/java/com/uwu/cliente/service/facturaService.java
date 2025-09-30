@@ -13,7 +13,5 @@ public interface facturaService {
 
     factura updateFactura(Long id, factura factura);
 
-    List<factura> findByClienteId(Long clienteId);
-
     void deleteFactura(Long id);
 }

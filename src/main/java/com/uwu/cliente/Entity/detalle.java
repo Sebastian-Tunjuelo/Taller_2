@@ -23,19 +23,20 @@ public class detalle {
     @JoinColumn(name = "id_producto") 
     private producto producto;
 
-    private int cantidad;
-    private float valor, descuento_Unitario;
+    private float cantidad,valor, descuento_Unitario,subtotal,total;
 
     public detalle(){}
 
     public detalle(long nro_Item, factura factura, producto producto,
-            int cantidad, float valor, float descuento_Unitario) {
+            float cantidad, float valor, float descuento_Unitario ,float subtotal, float total) {
         this.nro_Item = nro_Item;
         this.factura = factura;
         this.producto = producto;
         this.cantidad = cantidad;
         this.valor = valor;
         this.descuento_Unitario = descuento_Unitario;
+        this.subtotal= subtotal;
+        this.total=total;
     }
 
     public long getNro_Item() {
@@ -62,11 +63,11 @@ public class detalle {
         this.producto = producto;
     }
 
-    public int getCantidad() {
+    public float getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(float cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -84,6 +85,22 @@ public class detalle {
 
     public void setDescuento_Unitario(float descuento_Unitario) {
         this.descuento_Unitario = descuento_Unitario;
+    }
+
+    public float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(float subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 
 

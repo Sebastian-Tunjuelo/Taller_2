@@ -19,9 +19,9 @@ public class producto {
     private String nombre;
     private String descripcion;
     @PositiveOrZero(message = "PUES DEJEMOSLO GRATIS PERO NI MODO QUE LES DEMOS PLATA")
-    private double p_unitario;
+    private float p_unitario;
     @PositiveOrZero(message = "COMO VAMOS A VENDER ALGO QUE NO TENEMOS Y ADEMAS DEBEMOS (SI SOY)")
-    private int stock;
+    private float stock;
     private boolean estado = true;
 
     //@OneToMany(mappedBy = "producto")
@@ -30,7 +30,7 @@ public class producto {
     public producto() {
     }
 
-    public producto(long id, String nombre, String descripcion, double p_unitario, int stock, boolean estado) {
+    public producto(long id, String nombre, String descripcion, float p_unitario, float stock, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -64,19 +64,19 @@ public class producto {
         this.descripcion = descripcion;
     }
 
-    public double getP_unitario() {
+    public float getP_unitario() {
         return p_unitario;
     }
 
-    public void setP_unitario(double p_unitario) {
+    public void setP_unitario(float p_unitario) {
         this.p_unitario = p_unitario;
     }
 
-    public int getStock() {
+    public float getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(float stock) {
         this.stock = stock;
     }
 
