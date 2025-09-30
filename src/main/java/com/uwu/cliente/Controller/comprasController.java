@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,38 +61,26 @@ public class comprasController {
         return "ventas/factura";
     }
 
-    @PostMapping("/factura/{clienteId}/agregarDetalle/")
-    public String agregarDetalle(@PathVariable("clienteId")Long clienteId,@RequestParam("productoId")Long productoId,
-        @RequestParam("cantidad") float cantidad,@RequestParam("descuento") float descuento ,  RedirectAttributes redirectAttributes
-    ){
-        factura factura=facturaService.getFacturaById(clienteId);
-        producto producto=productoService.getProductoById(productoId);
+   
 
-        detalle detalle=new detalle();
-        detalle.setFactura(factura);
-        detalle.setProducto(producto);
-        detalle.setCantidad(cantidad);
-        detalle.setValor(producto.getP_unitario());
-        detalle.setDescuento_Unitario(descuento);
-        detalle.setSubtotal(producto.getP_unitario()*cantidad);
-        detalle.setTotal(detalle.getSubtotal()-descuento);
-        detalleService.saveDetalle(detalle);
+    @PostMapping("/factura/{clienteId}/agregarDetalle")
+public String agregarDetalle(@RequestParam Long facturaId, @PathVariable("clienteId") Long clienteId, @RequestParam Long id_producto,
+ @ModelAttribute("detalle") detalle detalle,RedirectAttributes redirectAttributes)
+ {
 
-        float nuevoSubtotal=0;
-        float nuevoDescuentoTotal=0;
+    
+    producto producto = productoService.getProductoById(id_producto);
+    factura factura = facturaService.getFacturaById(facturaId); 
+    
+    detalle.setProducto(producto);
+    detalle.setFactura(factura);
 
-        if (factura.getDetalles() != null) {
-            for (detalle d : factura.getDetalles()) {
-                nuevoSubtotal += d.getSubtotal();
-                nuevoDescuentoTotal += d.getDescuento_Unitario();
-            }
-        }
-        factura.setSubtotal(nuevoSubtotal);
-        factura.setDescuento_Total(nuevoDescuentoTotal);
-        factura.setValor_total(nuevoSubtotal - nuevoDescuentoTotal);
-        facturaService.saveFactura(factura);
+    detalleService.saveDetalle(detalle); 
 
-        return "redirect:/ventas/factura" + clienteId;
-    }
-
+    return "redirect:/ventas/factura/" + clienteId;
 }
+}
+
+    
+
+
