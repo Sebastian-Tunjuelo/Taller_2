@@ -71,9 +71,11 @@ public class productoController {
         return "redirect:/producto/";
     }
 
-    @GetMapping("/{id}")
-    public String esconderProducto(@PathVariable String param) {
-        return new String();
+    @GetMapping("/esconder/{id}")
+    public String esconderProducto(@PathVariable Long id) {
+        
+        productoService.hideProducto(id);
+        return "redirect:/producto/";
     }
     
 }

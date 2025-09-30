@@ -1,16 +1,16 @@
-INSERT INTO clientes (nombre, apellido, correo, create_at) VALUES 
-('Juan', 'Pérez', 'juan.perez@email.com', '2024-02-01'),
-('Luisa', 'Ramírez', 'luisa.ramirez@email.com', '2024-02-02'),
-('Pedro', 'Sánchez', 'pedro.sanchez@email.com', '2024-02-03'),
-('Ana', 'Gómez', 'ana.gomez@email.com', '2024-02-04'),
-('Carlos', 'Díaz', 'carlos.diaz@email.com', '2024-02-05');
+INSERT INTO clientes (nombre, apellido, correo, create_at,estado) VALUES 
+('Juan', 'Pérez', 'juan.perez@email.com', '2024-02-01','true'),
+('Luisa', 'Ramírez', 'luisa.ramirez@email.com', '2024-02-02','true'),
+('Pedro', 'Sánchez', 'pedro.sanchez@email.com', '2024-02-03','true'),
+('Ana', 'Gómez', 'ana.gomez@email.com', '2024-02-04','true'),
+('Carlos', 'Díaz', 'carlos.diaz@email.com', '2024-02-05','true');
 
-INSERT INTO producto (nombre, descripcion, p_unitario, stock) VALUES
-('Teclado', 'Teclado mecánico RGB', '199.99', '50'),
-('Mouse', 'Mouse inalámbrico ergonómico', '149.99', '120'),
-('Laptop', 'Intel i7, 16GB RAM, SSD 512GB', '3499.99', '10'),
-('Monitor', 'Monitor 27" 4K', '999.99', '25'),
-('Auriculares', 'Auriculares Bluetooth', '299.99', '80');
+INSERT INTO producto (nombre, descripcion, p_unitario, stock, estado) VALUES
+('Teclado', 'Teclado mecánico RGB', '199.99', '50','true'),
+('Mouse', 'Mouse inalámbrico ergonómico', '149.99', '120','true'),
+('Laptop', 'Intel i7, 16GB RAM, SSD 512GB', '3499.99', '10','true'),
+('Monitor', 'Monitor 27" 4K', '999.99', '25','true'),
+('Auriculares', 'Auriculares Bluetooth', '299.99', '80','true');
 
 INSERT INTO factura (id_cliente, subtotal, descuento_total, valor_total, fecha_compra) VALUES
 (1, 349.98, 49.98, 300.00, '2024-03-01'),

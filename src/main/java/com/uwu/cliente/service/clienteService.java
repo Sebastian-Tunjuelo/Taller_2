@@ -13,6 +13,10 @@ public interface clienteService {
     cliente getClienteById(Long id);
 
     cliente updaCliente(Long id, cliente cliente);
+    
+    cliente hideCliente(long id);
 
     void deleteCliente(Long id);
+
+
 }

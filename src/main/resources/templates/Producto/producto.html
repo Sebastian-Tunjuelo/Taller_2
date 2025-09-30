@@ -30,13 +30,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="producto : ${productos}">
+                <tr th:each="producto : ${productos}" th:if="${producto.estado}">
                     <td th:text="${producto.nombre}">Nombre</td>
                     <td th:text="${producto.descripcion}">Descripción</td>
                     <td th:text="${producto.p_unitario}">Precio Unitario</td>
                     <td th:text="${producto.stock}">Stock</td>
                     <td>
                         <a th:href="@{/producto/editar/{id}(id=${producto.id})}" class="btn btn-info btn-sm">Editar</a>
+                        <a th:href="@{/producto/esconder/{id}(id=${producto.id})}" class="btn btn-info btn-sm">esconder</a>
                         <a th:href="@{/producto/{id}(id=${producto.id})}" class="btn btn-danger btn-sm"
                             onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
                             Eliminar

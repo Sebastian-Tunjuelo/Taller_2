@@ -83,4 +83,11 @@ public class clienteController {
         return "redirect:/cliente/";
     }
 
+       @GetMapping("/esconder/{id}")
+    public String esconderProducto(@PathVariable Long id) {
+        
+        clienteService.hideCliente(id);
+        return "redirect:/cliente/";
+    }
+
 }

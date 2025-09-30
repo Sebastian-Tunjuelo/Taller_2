@@ -30,13 +30,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="cliente : ${clientes}">
+                <tr th:each="cliente : ${clientes}" th:if="${cliente.estado}">
                     <td th:text="${cliente.nombre}">Nombre</td>
                     <td th:text="${cliente.apellido}">Apellido</td>
                     <td th:text="${cliente.correo}">Email</td>
                     <td th:text="${cliente.createAt}">Fecha</td>
                     <td>
                         <a th:href="@{/cliente/editar/{id}(id=${cliente.id})}" class="btn btn-info btn-sm">Editar</a>
+                         <a th:href="@{/cliente/esconder/{id}(id=${cliente.id})}" class="btn btn-info btn-sm">esconder</a>
                         <a th:href="@{/cliente/{id}(id=${cliente.id})}" class="btn btn-danger btn-sm"
                             onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
                             Eliminar

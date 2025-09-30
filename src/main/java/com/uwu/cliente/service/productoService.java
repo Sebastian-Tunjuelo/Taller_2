@@ -13,7 +13,7 @@ public interface productoService {
 
     producto updaProducto(Long id, producto producto);
 
-    producto hideProducto(Long id, producto producto);
+    producto hideProducto( Long id);
 
     void deleteProducto(Long id);
 }

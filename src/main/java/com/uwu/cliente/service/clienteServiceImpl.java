@@ -46,4 +46,11 @@ public class clienteServiceImpl implements clienteService {
         clienteRepository.deleteById(id);
     }
 
+    @Override
+    public cliente hideCliente(long id) {
+        cliente cliente=clienteRepository.findById(id).get();
+        cliente.setEstado(false);
+        return clienteRepository.save(cliente);
+    }
+
 }

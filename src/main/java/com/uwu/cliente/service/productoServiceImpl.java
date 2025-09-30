@@ -47,11 +47,9 @@ public class productoServiceImpl implements productoService {
     }
 
     @Override
-    public producto hideProducto(Long id, producto producto) {
-        
-        
+    public producto hideProducto(Long id) {
+        producto producto=productoRepository.findById(id).get();
         producto.setEstado(false);
-
         return productoRepository.save(producto);
     }
 }
