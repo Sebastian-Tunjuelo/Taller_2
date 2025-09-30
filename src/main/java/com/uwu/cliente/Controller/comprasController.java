@@ -42,28 +42,29 @@ public class comprasController {
     }
 
     @GetMapping("/factura")
-    public String facturaPorQuery(@RequestParam("id") long id, Model model) {
-        return "redirect:/ventas/factura/" + id;
+    public String facturaPorQuery(@RequestParam("clienteId") Long clienteId, Model model) {
+        return "redirect:/ventas/factura/" + clienteId;
     }
 
-    @GetMapping("/factura/{id}")
-    public String mostrarFactura(@PathVariable long id, Model model) {
+    @GetMapping("/factura/{clienteId}")
+    public String mostrarFactura(@PathVariable Long clienteId, Model model) {
         factura factura = new factura();
         cliente cliente =new cliente();
-        cliente = clienteService.getClienteById(id);
+        cliente = clienteService.getClienteById(clienteId);
         factura.setCliente(cliente);
         factura.setFecha_Compra(new java.util.Date());
         facturaService.saveFactura(factura);
+      
         model.addAttribute("cliente", cliente);
         model.addAttribute("factura", factura);
         return "ventas/factura";
     }
 
-    @PostMapping("/factura/{id}/agregarDetalle")
-    public String agregarDetalle(@PathVariable("facturaId")long facturaId,@RequestParam("productoId")long productoId,
+    @PostMapping("/factura/{clienteId}/agregarDetalle/")
+    public String agregarDetalle(@PathVariable("clienteId")Long clienteId,@RequestParam("productoId")Long productoId,
         @RequestParam("cantidad") float cantidad,@RequestParam("descuento") float descuento ,  RedirectAttributes redirectAttributes
     ){
-        factura factura=facturaService.getFacturaById(facturaId);
+        factura factura=facturaService.getFacturaById(clienteId);
         producto producto=productoService.getProductoById(productoId);
 
         detalle detalle=new detalle();
@@ -90,7 +91,7 @@ public class comprasController {
         factura.setValor_total(nuevoSubtotal - nuevoDescuentoTotal);
         facturaService.saveFactura(factura);
 
-        return "redirect:ventas/factura" + facturaId;
+        return "redirect:/ventas/factura" + clienteId;
     }
 
 }

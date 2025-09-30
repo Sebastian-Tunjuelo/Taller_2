@@ -23,7 +23,7 @@ public class cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
-    private long id;
+    private Long id;
 
     @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "El nombre solo debe contener letras y espacios")
     private String nombre;
@@ -44,7 +44,7 @@ public class cliente {
 
     public cliente() {}
 
-    public cliente(long id, String nombre, String apellido, String correo, Date createAt,List<factura> factura, boolean estado) {
+    public cliente(Long id, String nombre, String apellido, String correo, Date createAt,List<factura> factura, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -54,11 +54,11 @@ public class cliente {
         this.estado = estado;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

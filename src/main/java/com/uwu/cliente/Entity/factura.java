@@ -18,7 +18,7 @@ public class factura {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_factura")
-    private long nro_Venta;
+    private Long nro_Venta;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -36,7 +36,7 @@ public class factura {
     public factura(){}
 
 
-    public factura(long nro_Venta, cliente cliente, float subtotal, float descuento_Total,
+    public factura(Long nro_Venta, cliente cliente, float subtotal, float descuento_Total,
             float valor_total, Date fecha_Compra, List<detalle> detalles) {
         this.nro_Venta = nro_Venta;
         this.cliente = cliente;
@@ -48,12 +48,12 @@ public class factura {
     }
 
 
-    public long getNro_Venta() {
+    public Long getNro_Venta() {
         return nro_Venta;
     }
 
 
-    public void setNro_Venta(long nro_Venta) {
+    public void setNro_Venta(Long nro_Venta) {
         this.nro_Venta = nro_Venta;
     }
 

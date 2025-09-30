@@ -10,12 +10,12 @@ INSERT INTO producto (id_producto, nombre, descripcion, p_unitario, stock, estad
 (4, 'Chaqueta', 'Chaqueta térmica talla L',   150000.00,  2, true);
 
 
-INSERT INTO factura (id_factura, id_cliente, subtotal, descuento_Total, valor_total, fecha_compra) VALUES
-(1, 1, 115000.00, 5000.00, 110000.00, '2025-09-30'),
-(2, 2, 230000.00, 15000.00, 215000.00, '2025-09-29');
+INSERT INTO factura (id_cliente, subtotal, descuento_Total, valor_total, fecha_compra) VALUES
+(1, 115000.00, 5000.00, 110000.00, '2025-09-30'),
+(2, 230000.00, 15000.00, 215000.00, '2025-09-29');
 
-INSERT INTO detalle (nro_Item, id_factura, id_producto, cantidad, valor, descuento_Unitario, subtotal, total) VALUES
-(1, 1, 1, 2.0, 45000.00,   0.00,  90000.00,  90000.00),   
-(2, 1, 3, 1.0, 25000.00, 5000.00, 25000.00, 20000.00),    
-(3, 2, 2, 1.0, 80000.00,   0.00,  80000.00,  80000.00),   
-(4, 2, 4, 1.0,150000.00,15000.00,150000.00,135000.00);    
+INSERT INTO detalle (id_factura, id_producto, cantidad, valor, descuento_Unitario, subtotal, total) VALUES
+( 1, 1, 2.0, 45000.00,   0.00,  90000.00,  90000.00),   
+( 1, 3, 1.0, 25000.00, 5000.00, 25000.00, 20000.00),    
+( 2, 2, 1.0, 80000.00,   0.00,  80000.00,  80000.00),   
+( 2, 4, 1.0,150000.00,15000.00,150000.00,135000.00);    

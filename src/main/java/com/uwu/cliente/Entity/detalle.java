@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 public class detalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long nro_Item;
+    private Long nro_Item;
 
     @ManyToOne
     @JoinColumn(name = "id_factura")
@@ -27,7 +27,7 @@ public class detalle {
 
     public detalle(){}
 
-    public detalle(long nro_Item, factura factura, producto producto,
+    public detalle(Long nro_Item, factura factura, producto producto,
             float cantidad, float valor, float descuento_Unitario ,float subtotal, float total) {
         this.nro_Item = nro_Item;
         this.factura = factura;
@@ -39,11 +39,11 @@ public class detalle {
         this.total=total;
     }
 
-    public long getNro_Item() {
+    public Long getNro_Item() {
         return nro_Item;
     }
 
-    public void setNro_Item(long nro_Item) {
+    public void setNro_Item(Long nro_Item) {
         this.nro_Item = nro_Item;
     }
 
