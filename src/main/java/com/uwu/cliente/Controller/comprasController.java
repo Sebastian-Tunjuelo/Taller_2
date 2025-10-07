@@ -48,39 +48,43 @@ public class comprasController {
     }
 
     @GetMapping("/factura/{clienteId}")
-    public String mostrarFactura(@PathVariable Long clienteId, Model model) {
-        factura factura = new factura();
-        cliente cliente =new cliente();
-        cliente = clienteService.getClienteById(clienteId);
-        factura.setCliente(cliente);
-        factura.setFecha_Compra(new java.util.Date());
-        facturaService.saveFactura(factura);
-      
-        model.addAttribute("cliente", cliente);
+    public String mostrarFactura(
+            @PathVariable Long clienteId, @RequestParam(value = "facturaId", required = false) Long facturaId,
+            Model model) {
+
+        factura factura;
+        if (facturaId != null) {
+            factura = facturaService.getFacturaById(facturaId);
+        } else {
+            factura = new factura();
+            cliente cliente = clienteService.getClienteById(clienteId);
+            factura.setCliente(cliente);
+            factura.setFecha_Compra(new java.util.Date());
+            facturaService.saveFactura(factura);
+            // basicamente estoy enviendo el id de factura para que no se me pierda por la url de forma "temporal"
+            return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
+        }
+        model.addAttribute("cliente", factura.getCliente());
         model.addAttribute("factura", factura);
+        model.addAttribute("detalles", detalleService.findAllDetalles());
         return "ventas/factura";
     }
 
-   
-
     @PostMapping("/factura/{clienteId}/agregarDetalle")
-public String agregarDetalle(@RequestParam Long facturaId, @PathVariable("clienteId") Long clienteId, @RequestParam Long id_producto,
- @ModelAttribute("detalle") detalle detalle,RedirectAttributes redirectAttributes)
- {
+    public String agregarDetalle(@RequestParam Long facturaId, @PathVariable("clienteId") Long clienteId,
+            @RequestParam Long id_producto,
+            @ModelAttribute("detalle") detalle detalle, RedirectAttributes redirectAttributes) {
 
-    
-    producto producto = productoService.getProductoById(id_producto);
-    factura factura = facturaService.getFacturaById(facturaId); 
-    
-    detalle.setProducto(producto);
-    detalle.setFactura(factura);
+        producto producto = productoService.getProductoById(id_producto);
+        factura factura = facturaService.getFacturaById(facturaId);
+        detalle.setProducto(producto);
+        detalle.setFactura(factura);
+        float subtotal=producto.getP_unitario()*detalle.getCantidad();
+        detalle.setValor(producto.getP_unitario());
+        detalle.setSubtotal(subtotal);
+        detalle.setTotal(subtotal-(detalle.getDescuento_Unitario()*detalle.getCantidad()));
+        detalleService.saveDetalle(detalle);
 
-    detalleService.saveDetalle(detalle); 
-
-    return "redirect:/ventas/factura/" + clienteId;
+        return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
+    }
 }
-}
-
-    
-
-

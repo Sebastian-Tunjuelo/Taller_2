@@ -1,13 +1,13 @@
-INSERT INTO clientes (id_cliente, nombre, apellido, correo, create_at, estado) VALUES
-(1, 'Juan',  'Perez',  'juan.perez@example.com',  '2025-09-01', true),
-(2, 'Ana',   'Gomez',  'ana.gomez@example.com',   '2025-08-20', true),
-(3, 'Carlos','Lopez',  'carlos.lopez@example.com','2025-07-15', false);
+INSERT INTO clientes ( nombre, apellido, correo, create_at, estado) VALUES
+('Juan',  'Perez',  'juan.perez@example.com',  '2025-09-01', true),
+('Ana',   'Gomez',  'ana.gomez@example.com',   '2025-08-20', true),
+('Carlos','Lopez',  'carlos.lopez@example.com','2025-07-15', false);
 
-INSERT INTO producto (id_producto, nombre, descripcion, p_unitario, stock, estado) VALUES
-(1, 'Camiseta', 'Camiseta algodón talla M',    45000.00, 10, true),
-(2, 'Pantalon', 'Pantalón jeans talla 32',     80000.00,  5, true),
-(3, 'Gorra',    'Gorra visera plana',          25000.00, 20, true),
-(4, 'Chaqueta', 'Chaqueta térmica talla L',   150000.00,  2, true);
+INSERT INTO producto (nombre, descripcion, p_unitario, stock, estado) VALUES
+('Camiseta', 'Camiseta algodón talla M',    45000.00, 10, true),
+('Pantalon', 'Pantalón jeans talla 32',     80000.00,  5, true),
+('Gorra',    'Gorra visera plana',          25000.00, 20, true),
+('Chaqueta', 'Chaqueta térmica talla L',   150000.00,  2, true);
 
 
 INSERT INTO factura (id_cliente, subtotal, descuento_Total, valor_total, fecha_compra) VALUES

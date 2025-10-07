@@ -127,56 +127,57 @@
         </div>
       </div>
     </div>
+    <div class="details"></div>
+    <form th:action="@{'/ventas/factura/' + ${cliente.id} + '/agregarDetalle'}" method="post"
+      style="margin-bottom:20px;">
 
-    <form th:action="@{'/ventas/factura/' + ${cliente.id} + '/agregarDetalle'}" method="post" style="margin-bottom:20px;">
+      <div>
+        <label>Factura</label>
+        <input type="number" id="factura.nro_Venta" name="facturaId" class="form-control"
+          th:value="${factura.nro_Venta}" readonly />
+      </div>
+      <div>
+        <label>Producto:</label>
+        <input type="number" id="id_producto" name="id_producto" class="form-control" />
+      </div>
+      <div>
+        <label>Cantidad:</label>
+        <input type="number" name="cantidad" min="1" step="1" required>
+      </div>
+      <div>
+        <label>Descuento Unitario:</label>
+        <input type="number" name="descuento_Unitario" min="0" step="0.01" required>
+      </div>
+      <button type="submit">Agregar Detalle</button>
+    </form>
 
-    <div>
-      <label>Factura</label>
-      <input type="number" id="factura.nro_Venta" name="facturaId" class="form-control" th:value="${factura.nro_Venta}" readonly/>
-    </div>
-  <div>
-    <label>Producto:</label>
-      <input type="number" id="id_producto" name="id_producto" class="form-control"/>
-  </div>
-  <div>
-    <label>Cantidad:</label>
-    <input type="number" name="cantidad" min="1" step="1" required>
-  </div>
-  <div>
-    <label>Descuento Unitario:</label>
-    <input type="number" name="descuento_Unitario" min="0" step="0.01" required>
-  </div>
-  <button type="submit">Agregar Detalle</button>
-</form>
 
-    <div class="details">
-      <div style="text-align:center; font-weight:700; margin:8px 0">DETALLES DE COMPRA</div>
+    <div style="text-align:center; font-weight:700; margin:8px 0">DETALLES DE COMPRA</div>
 
-      <table aria-label="detalles de compra">
-        <thead>
-          <tr>
-            <th style="width:40px">Item</th>
-            <th style="width:340px">Descripción</th>
-            <th style="width:60px">Cant</th>
-            <th style="width:90px">Vlr Unit</th>
-            <th style="width:90px">Subtotal</th>
-            <th style="width:60px">Dcto.</th>
-            <th style="width:120px">Total</th>
-          </tr>
-        </thead>
-        
-        <tbody>
-          <tr th:each="detalle : ${detalles}">
-    <td th:text="${detalle.nro_Item}"></td>
-    <td th:text="${detalle.producto.nombre}"></td>
-   <td th:text="${detalle.cantidad}"></td>
-   <td th:text="${detalle.valor}"></td>
-    <td th:text="${detalle.subtotal}"></td>
-    <td th:text="${detalle.descuento_Unitario}"></td>
-    <td th:text="${detalle.total}"></td>
-</tr>
-          <tr>
-    </div>
+    <table aria-label="detalles de compra">
+      <thead>
+        <tr>
+          <th style="width:40px">Item</th>
+          <th style="width:340px">Descripción</th>
+          <th style="width:60px">Cant</th>
+          <th style="width:90px">Vlr Unit</th>
+          <th style="width:90px">Subtotal</th>
+          <th style="width:60px">Dcto.</th>
+          <th style="width:120px">Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="detalle : ${detalles}" th:if="${detalle.factura.nro_Venta} == ${factura.nro_Venta}">
+          <td th:text="${detalle.nro_Item}"></td>
+          <td th:text="${detalle.producto.nombre}"></td>
+          <td th:text="${detalle.cantidad}"></td>
+          <td th:text="${detalle.valor}"></td>
+          <td th:text="${detalle.subtotal}"></td>
+          <td th:text="${detalle.descuento_Unitario}"></td>
+          <td th:text="${detalle.total}"></td>
+        </tr>
+        <tr>
   </div>
 </body>
 
