@@ -43,15 +43,21 @@ public class comprasController {
     }
 
     @GetMapping("/factura")
-    public String facturaPorQuery(@RequestParam("clienteId") Long clienteId, Model model) {
-        return "redirect:/ventas/factura/" + clienteId;
+    public String facturaPorQuery(@RequestParam("clienteId") Long clienteId, Model model,
+            RedirectAttributes redirectAttributes) {
+        for (cliente cliente : clienteService.findAllClientes()) {
+            if (cliente.getId() == clienteId) {
+                return "redirect:/ventas/factura/" + clienteId;
+            }
+        }
+        redirectAttributes.addFlashAttribute("error", "cliente no encontrado");
+        return "redirect:/ventas/seleccionarCliente";
     }
 
     @GetMapping("/factura/{clienteId}")
     public String mostrarFactura(
             @PathVariable Long clienteId, @RequestParam(value = "facturaId", required = false) Long facturaId,
             Model model) {
-
         factura factura;
         if (facturaId != null) {
             factura = facturaService.getFacturaById(facturaId);
@@ -61,9 +67,24 @@ public class comprasController {
             factura.setCliente(cliente);
             factura.setFecha_Compra(new java.util.Date());
             facturaService.saveFactura(factura);
-            // basicamente estoy enviendo el id de factura para que no se me pierda por la url de forma "temporal"
+            // basicamente estoy enviendo el id de factura para que no se me pierda por la
+            // url de forma "temporal"
             return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
         }
+        float subtotalGeneral = 0;
+        float descuentoGeneral = 0;
+        float totalGeneral = 0;
+        for (detalle detalle : detalleService.findAllDetalles()) {
+            if (detalle.getFactura().getNro_Venta() == factura.getNro_Venta()) {
+                subtotalGeneral += detalle.getSubtotal();
+                descuentoGeneral += (detalle.getDescuento_Unitario() * detalle.getCantidad());
+                totalGeneral += detalle.getTotal();
+            }
+        }
+        factura.setSubtotal(subtotalGeneral);
+        factura.setDescuento_Total(descuentoGeneral);
+        factura.setValor_total(totalGeneral);
+
         model.addAttribute("cliente", factura.getCliente());
         model.addAttribute("factura", factura);
         model.addAttribute("detalles", detalleService.findAllDetalles());
@@ -71,20 +92,43 @@ public class comprasController {
     }
 
     @PostMapping("/factura/{clienteId}/agregarDetalle")
-    public String agregarDetalle(@RequestParam Long facturaId, @PathVariable("clienteId") Long clienteId,
+    public String agregarDetalle(@RequestParam Long facturaId,
+            @PathVariable("clienteId") Long clienteId,
             @RequestParam Long id_producto,
-            @ModelAttribute("detalle") detalle detalle, RedirectAttributes redirectAttributes) {
+            @ModelAttribute("detalle") detalle detalle,
+            RedirectAttributes redirectAttributes) {
 
         producto producto = productoService.getProductoById(id_producto);
-        factura factura = facturaService.getFacturaById(facturaId);
+        if (producto == null) {
+            // es un valor model que se guarda temporalmente
+            redirectAttributes.addFlashAttribute("error", "Producto no encontrado.");
+            return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + facturaId;
+        }
+
+        if (detalle.getCantidad() <= 0) {
+            redirectAttributes.addFlashAttribute("error", "La cantidad debe ser mayor a 0.");
+            return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + facturaId;
+        }
+
+        if (detalle.getCantidad() > producto.getStock()) {
+            redirectAttributes.addFlashAttribute("error",
+                    "La cantidad solicitada (" + detalle.getCantidad() + ") supera el stock disponible ("
+                            + producto.getStock() + ").");
+            return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + facturaId;
+        }
+        producto.setStock(producto.getStock() - detalle.getCantidad());
         detalle.setProducto(producto);
+        factura factura = facturaService.getFacturaById(facturaId);
         detalle.setFactura(factura);
-        float subtotal=producto.getP_unitario()*detalle.getCantidad();
+        float subtotal = producto.getP_unitario() * detalle.getCantidad();
         detalle.setValor(producto.getP_unitario());
         detalle.setSubtotal(subtotal);
-        detalle.setTotal(subtotal-(detalle.getDescuento_Unitario()*detalle.getCantidad()));
+        detalle.setTotal(subtotal - (detalle.getDescuento_Unitario() * detalle.getCantidad()));
+
         detalleService.saveDetalle(detalle);
 
+        redirectAttributes.addFlashAttribute("success", "Detalle agregado correctamente.");
         return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
     }
+
 }

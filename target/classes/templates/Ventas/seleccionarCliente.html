@@ -8,8 +8,9 @@
 <body>
  <form th:action="@{/ventas/factura}" method="get">
   <div class="mb-3">
+     <div th:if="${error}" class="text-danger" th:text="${error}"></div>
     <label class="form-label">Id del cliente:</label>
-    <input type="number" id="clienteId" name="clienteId" class="form-control"/>
+    <input type="number" id="clienteId" name="clienteId" class="form-control"  min="1" step="1"/>
   </div>
   <button type="submit" class="btn btn-primary">Ir a factura</button>
   <a th:href="@{/}" class="btn btn-secondary">Cancelar</a>

@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.PositiveOrZero;
 
 
 @Entity
@@ -23,7 +24,7 @@ public class factura {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private cliente cliente;
-   
+   @PositiveOrZero(message = "no pueden ser valores negativos")
     private float subtotal, descuento_Total, valor_total;
     @Column(name = "fecha_compra")
     private Date fecha_Compra;

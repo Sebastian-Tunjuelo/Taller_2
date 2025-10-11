@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.PositiveOrZero;
 
 
 @Entity
@@ -22,7 +23,7 @@ public class detalle {
     @ManyToOne
     @JoinColumn(name = "id_producto") 
     private producto producto;
-
+    @PositiveOrZero(message = "no pueden ser valores negativos")
     private float cantidad,valor, descuento_Unitario,subtotal,total;
 
     public detalle(){}

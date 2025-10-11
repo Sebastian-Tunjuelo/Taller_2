@@ -52,7 +52,7 @@ public class clienteController {
         // valid tambien activa las validaciones de las entidades
         // BindingResult: guarda los errores de validación que encuentre @Valid.
         if (result.hasErrors()) {
-            return "crearClientes"; // Vuelve al formulario mostrando los errores
+            return "Cliente/crearClientes"; // Vuelve al formulario mostrando los errores
         }
 
         cliente.setCreateAt(new java.util.Date());// todo culpa de samuel

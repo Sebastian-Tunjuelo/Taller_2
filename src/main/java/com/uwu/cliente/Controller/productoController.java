@@ -43,7 +43,7 @@ public class productoController {
     @PostMapping("")
     public String guardarProducto(@Valid @ModelAttribute("producto") producto producto, BindingResult result) {
         if (result.hasErrors()) {
-            return "crearProducto";
+            return "/Producto/crearProducto";
         }
         productoService.saveProducto(producto);
         return "redirect:/producto/";
