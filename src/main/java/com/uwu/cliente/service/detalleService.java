@@ -16,4 +16,6 @@ public interface detalleService {
 
     void deleteDetalle(Long id);
 
+    detalle calcular(detalle detalle);
+
 }

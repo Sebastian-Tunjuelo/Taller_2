@@ -120,13 +120,13 @@ public class comprasController {
         detalle.setProducto(producto);
         factura factura = facturaService.getFacturaById(facturaId);
         detalle.setFactura(factura);
-        float subtotal = producto.getP_unitario() * detalle.getCantidad();
         detalle.setValor(producto.getP_unitario());
+        /*float subtotal = producto.getP_unitario() * detalle.getCantidad();
         detalle.setSubtotal(subtotal);
         detalle.setTotal(subtotal - (detalle.getDescuento_Unitario() * detalle.getCantidad()));
-
         detalleService.saveDetalle(detalle);
-
+        */
+        detalleService.calcular(detalle);
         redirectAttributes.addFlashAttribute("success", "Detalle agregado correctamente.");
         return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
     }
