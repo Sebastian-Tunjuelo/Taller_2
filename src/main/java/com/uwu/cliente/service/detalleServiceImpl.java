@@ -54,4 +54,9 @@ public class detalleServiceImpl implements detalleService {
     return detalleRepository.save(detalle);
   }
 
+  @Override
+  public List<detalle> findByFactudaId(Long factudaId) {
+    return detalleRepository.findByFacturaId(factudaId);
+  }
+
 }

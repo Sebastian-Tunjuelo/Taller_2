@@ -144,7 +144,7 @@
       </div>
       <div>
         <label>Cantidad:</label>
-        <input type="number"  name="cantidad" min="1" step="1" required>
+        <input type="number" name="cantidad" min="1" step="1" required>
       </div>
       <div>
         <label>Descuento Unitario:</label>
@@ -169,7 +169,8 @@
       </thead>
 
       <tbody>
-        <tr th:each="detalle : ${detalles}" th:if="${detalle.factura.nro_Venta} == ${factura.nro_Venta}">
+        <tr th:each="detalle : ${detalles}">
+          <!--<tr th:each="detalle : ${detalles}" th:if="${detalle.factura.nro_Venta} == ${factura.nro_Venta}"> -->
           <td th:text="${detalle.nro_Item}"></td>
           <td th:text="${detalle.producto.nombre}"></td>
           <td th:text="${detalle.cantidad}"></td>

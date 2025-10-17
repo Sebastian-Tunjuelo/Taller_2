@@ -18,4 +18,6 @@ public interface detalleService {
 
     detalle calcular(detalle detalle);
 
+    List<detalle> findByFactudaId(Long factudaId);
+
 }

@@ -74,12 +74,20 @@ public class comprasController {
         float subtotalGeneral = 0;
         float descuentoGeneral = 0;
         float totalGeneral = 0;
-        for (detalle detalle : detalleService.findAllDetalles()) {
-            if (detalle.getFactura().getNro_Venta() == factura.getNro_Venta()) {
-                subtotalGeneral += detalle.getSubtotal();
-                descuentoGeneral += (detalle.getDescuento_Unitario() * detalle.getCantidad());
-                totalGeneral += detalle.getTotal();
-            }
+        /*
+         * for (detalle detalle : detalleService.findAllDetalles()) {
+         * if (detalle.getFactura().getNro_Venta() == factura.getNro_Venta()) {
+         * subtotalGeneral += detalle.getSubtotal();
+         * descuentoGeneral += (detalle.getDescuento_Unitario() *
+         * detalle.getCantidad());
+         * totalGeneral += detalle.getTotal();
+         * }
+         * }
+         */
+        for (detalle detalle : detalleService.findByFactudaId(factura.getNro_Venta())) {
+            subtotalGeneral += detalle.getSubtotal();
+            descuentoGeneral += (detalle.getDescuento_Unitario() * detalle.getCantidad());
+            totalGeneral += detalle.getTotal();
         }
         factura.setSubtotal(subtotalGeneral);
         factura.setDescuento_Total(descuentoGeneral);
@@ -87,7 +95,7 @@ public class comprasController {
 
         model.addAttribute("cliente", factura.getCliente());
         model.addAttribute("factura", factura);
-        model.addAttribute("detalles", detalleService.findAllDetalles());
+        model.addAttribute("detalles", detalleService.findByFactudaId(factura.getNro_Venta()));
         return "ventas/factura";
     }
 
@@ -116,16 +124,28 @@ public class comprasController {
                             + producto.getStock() + ").");
             return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + facturaId;
         }
-        producto.setStock(producto.getStock() - detalle.getCantidad());
-        detalle.setProducto(producto);
         factura factura = facturaService.getFacturaById(facturaId);
+        detalle.setProducto(producto);
         detalle.setFactura(factura);
+        producto.setStock(producto.getStock() - detalle.getCantidad());
         detalle.setValor(producto.getP_unitario());
-        /*float subtotal = producto.getP_unitario() * detalle.getCantidad();
-        detalle.setSubtotal(subtotal);
-        detalle.setTotal(subtotal - (detalle.getDescuento_Unitario() * detalle.getCantidad()));
-        detalleService.saveDetalle(detalle);
-        */
+        for (detalle detalle2 : detalleService.findByFactudaId(facturaId)) {
+            if ((detalle2.getProducto() == producto) &&
+                    (detalle2.getDescuento_Unitario() == detalle.getDescuento_Unitario())) {
+                detalle2.setCantidad(detalle.getCantidad() + detalle2.getCantidad());
+                detalleService.calcular(detalle2);
+                redirectAttributes.addFlashAttribute("success", "Detalle agregado correctamente.");
+                return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
+            }
+        }
+
+        /*
+         * float subtotal = producto.getP_unitario() * detalle.getCantidad();
+         * detalle.setSubtotal(subtotal);
+         * detalle.setTotal(subtotal - (detalle.getDescuento_Unitario() *
+         * detalle.getCantidad()));
+         * detalleService.saveDetalle(detalle);
+         */
         detalleService.calcular(detalle);
         redirectAttributes.addFlashAttribute("success", "Detalle agregado correctamente.");
         return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
