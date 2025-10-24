@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detalle de Factura</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --border: #111;
+      --muted: #666
+    }
+
+    body {
+      padding: 20px;
+      background: #f6f6f6
+    }
+
+    .paper {
+      width: 85%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 18px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .08)
+    }
+
+    .header {
+      border: 2px solid var(--border);
+      padding: 6px 10px
+    }
+
+    .header .title {
+      font-weight: 700;
+      text-align: center;
+      font-size: 18px
+    }
+
+    .header .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      gap: 10px
+    }
+
+    .box {
+      border: 1px solid var(--border);
+      padding: 6px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-top: 20px;
+    }
+
+    thead th {
+      border: 2px solid var(--border);
+      padding: 8px;
+      font-weight: 700;
+      background-color: #f8f9fa;
+    }
+
+    tbody td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top
+    }
+
+    .totals {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end
+    }
+
+    .totals .summary {
+      width: 360px
+    }
+
+    .summary .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border: 1px solid var(--border)
+    }
+
+    .summary .row.total {
+      font-weight: 800;
+      font-size: 16px;
+      background-color: #f8f9fa;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="paper">
+    <div class="mb-3">
+      <a th:href="@{/ventas/facturas}" class="btn btn-secondary">← Volver al Historial</a>
+      <a th:href="@{/}" class="btn btn-outline-secondary">🏠 Inicio</a>
+    </div>
+
+    <div class="header">
+      <div class="title">🧾 FACTURA DE VENTA NRO <span th:text="${factura.nro_Venta}"></span></div>
+      <div class="meta">
+        <div class="box" style="flex:1">
+          Fecha de compra: <strong th:text="${#dates.format(factura.fecha_Compra, 'dd/MM/yyyy HH:mm')}"></strong>
+        </div>
+        <div style="flex:0 0 360px" class="box">
+          <div><strong>CLIENTE:</strong></div>
+          <div style="display:flex; gap:6px; margin-top:6px">
+            <div style="flex:0 0 90px; border:1px solid var(--border); padding:6px">
+              ID: <span th:text="${cliente.id}"></span>
+            </div>
+            <div style="flex:1; border:1px solid var(--border); padding:6px">
+              <span th:text="${cliente.nombre + ' ' + cliente.apellido}"></span>
+            </div>
+          </div>
+          <div style="margin-top:6px; font-size:0.9em">
+            📧 <span th:text="${cliente.correo}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; font-weight:700; margin:20px 0">DETALLES DE COMPRA</div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">Item</th>
+          <th style="width:340px">Descripción</th>
+          <th style="width:60px">Cant</th>
+          <th style="width:90px">Vlr Unit</th>
+          <th style="width:90px">Subtotal</th>
+          <th style="width:60px">Dcto.</th>
+          <th style="width:120px">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="detalle : ${detalles}">
+          <td th:text="${detalle.nro_Item}"></td>
+          <td th:text="${detalle.producto.nombre}"></td>
+          <td style="text-align:center" th:text="${detalle.cantidad}"></td>
+          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.valor, 0, 'COMMA', 2, 'POINT')}"></td>
+          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.subtotal, 0, 'COMMA', 2, 'POINT')}"></td>
+          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.descuento_Unitario, 0, 'COMMA', 2, 'POINT')}"></td>
+          <td style="text-align:right"><strong th:text="${'$' + #numbers.formatDecimal(detalle.total, 0, 'COMMA', 2, 'POINT')}"></strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="summary">
+        <div class="row">
+          <span>Subtotal:</span>
+          <span th:text="${'$' + #numbers.formatDecimal(factura.subtotal, 0, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="row">
+          <span>Descuento total:</span>
+          <span th:text="${'$' + #numbers.formatDecimal(factura.descuento_Total, 0, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="row total">
+          <span>TOTAL A PAGAR:</span>
+          <span th:text="${'$' + #numbers.formatDecimal(factura.valor_total, 0, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
