@@ -1,5 +1,7 @@
 package com.uwu.cliente.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,7 +94,7 @@ public class comprasController {
         factura.setSubtotal(subtotalGeneral);
         factura.setDescuento_Total(descuentoGeneral);
         factura.setValor_total(totalGeneral);
-
+        facturaService.saveFactura(factura);
         model.addAttribute("cliente", factura.getCliente());
         model.addAttribute("factura", factura);
         model.addAttribute("detalles", detalleService.findByFactudaId(factura.getNro_Venta()));
@@ -151,4 +153,45 @@ public class comprasController {
         return "redirect:/ventas/factura/" + clienteId + "?facturaId=" + factura.getNro_Venta();
     }
 
+    // Método para listar todas las facturas
+@GetMapping("/facturas")
+public String listarFacturas(Model model) {
+    model.addAttribute("facturas", facturaService.findAllFacturas());
+    return "Ventas/listaFactura";
+}
+
+// Método para ver detalle de una factura específica
+@GetMapping("/factura/detalle/{facturaId}")
+public String verDetalleFactura(@PathVariable Long facturaId, Model model) {
+    factura factura = facturaService.getFacturaById(facturaId);
+
+    
+    model.addAttribute("factura", factura);
+    model.addAttribute("detalles", detalleService.findByFactudaId(factura.getNro_Venta()));
+    
+    return "Ventas/detalleFactura";
+}
+
+
+@GetMapping("/factura/eliminar/{facturaId}")
+public String eliminarFactura(@PathVariable Long facturaId, RedirectAttributes redirectAttributes) {
+    try {
+        // Primero eliminar los detalles asociados
+        List<detalle> detalles = detalleService.findByFactudaId(facturaId);
+        for (detalle det : detalles) {
+            // Devolver el stock al producto
+            producto prod = det.getProducto();
+            prod.setStock(prod.getStock() + det.getCantidad());
+            productoService.saveProducto(prod);
+            // Eliminar el detalle
+            detalleService.deleteDetalle(det.getNro_Item());
+        }
+        // Luego eliminar la factura
+        facturaService.deleteFactura(facturaId);
+        redirectAttributes.addFlashAttribute("success", "Factura eliminada correctamente.");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "Error al eliminar la factura.");
+    }
+    return "redirect:/ventas/facturas";
+}
 }
