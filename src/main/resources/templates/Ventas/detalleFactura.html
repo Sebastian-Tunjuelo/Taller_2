@@ -6,162 +6,121 @@
   <title>Detalle de Factura</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root {
-      --border: #111;
-      --muted: #666
-    }
-
-    body {
-      padding: 20px;
-      background: #f6f6f6
-    }
-
-    .paper {
-      width: 85%;
-      margin: 0 auto;
-      background: #fff;
+    .factura-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
       padding: 18px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, .08)
+      border-radius: 10px 10px 0 0;
     }
 
-    .header {
-      border: 2px solid var(--border);
-      padding: 6px 10px
+    .info-box {
+      border: 2px solid #dee2e6;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      margin-bottom: 12px;
     }
 
-    .header .title {
+    .total-section {
+      background-color: #f8f9fa;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .details-title {
       font-weight: 700;
+      margin: 18px 0 8px;
       text-align: center;
-      font-size: 18px
-    }
-
-    .header .meta {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      gap: 10px
-    }
-
-    .box {
-      border: 1px solid var(--border);
-      padding: 6px
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      margin-top: 20px;
-    }
-
-    thead th {
-      border: 2px solid var(--border);
-      padding: 8px;
-      font-weight: 700;
-      background-color: #f8f9fa;
-    }
-
-    tbody td {
-      border: 1px solid var(--border);
-      padding: 10px;
-      vertical-align: top
-    }
-
-    .totals {
-      margin-top: 12px;
-      display: flex;
-      justify-content: flex-end
-    }
-
-    .totals .summary {
-      width: 360px
-    }
-
-    .summary .row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px;
-      border: 1px solid var(--border)
-    }
-
-    .summary .row.total {
-      font-weight: 800;
-      font-size: 16px;
-      background-color: #f8f9fa;
     }
   </style>
 </head>
 
 <body>
-  <div class="paper">
-    <div class="mb-3">
-      <a th:href="@{/ventas/facturas}" class="btn btn-secondary">← Volver al Historial</a>
-      <a th:href="@{/}" class="btn btn-outline-secondary">🏠 Inicio</a>
-    </div>
-
-    <div class="header">
-      <div class="title">🧾 FACTURA DE VENTA NRO <span th:text="${factura.nro_Venta}"></span></div>
-      <div class="meta">
-        <div class="box" style="flex:1">
-          Fecha de compra: <strong th:text="${#dates.format(factura.fecha_Compra, 'dd/MM/yyyy HH:mm')}"></strong>
-        </div>
-        <div style="flex:0 0 360px" class="box">
-          <div><strong>CLIENTE:</strong></div>
-          <div style="display:flex; gap:6px; margin-top:6px">
-            <div style="flex:0 0 90px; border:1px solid var(--border); padding:6px">
-              ID: <span th:text="${factura.cliente.id}"></span>
-            </div>
-            <div style="flex:1; border:1px solid var(--border); padding:6px">
-              <span th:text="${factura.cliente.nombre + ' ' + factura.cliente.apellido}"></span>
-            </div>
+  <div class="container mt-4">
+    <div class="card shadow-lg mb-4">
+      <div class="factura-header">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h3 class="mb-0">🧾 FACTURA DE VENTA NRO <span th:text="${factura.nro_Venta}"></span></h3>
           </div>
-          <div style="margin-top:6px; font-size:0.9em">
-            📧 <span th:text="${factura.cliente.correo}"></span>
+          <div class="col-md-4 text-end">
+            <p class="mb-1"><strong>Fecha:</strong></p>
+            <p th:text="${#dates.format(factura.fecha_Compra, 'dd/MM/yyyy HH:mm')}"></p>
           </div>
         </div>
       </div>
-    </div>
 
-    <div style="text-align:center; font-weight:700; margin:20px 0">DETALLES DE COMPRA</div>
-    
-    <table>
-      <thead>
-        <tr>
-          <th style="width:40px">Item</th>
-          <th style="width:340px">Descripción</th>
-          <th style="width:60px">Cant</th>
-          <th style="width:90px">Vlr Unit</th>
-          <th style="width:90px">Subtotal</th>
-          <th style="width:60px">Dcto.</th>
-          <th style="width:120px">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="detalle : ${detalles}">
-          <td th:text="${detalle.nro_Item}"></td>
-          <td th:text="${detalle.producto.nombre}"></td>
-          <td style="text-align:center" th:text="${detalle.cantidad}"></td>
-          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.valor, 0, 'COMMA', 2, 'POINT')}"></td>
-          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.subtotal, 0, 'COMMA', 2, 'POINT')}"></td>
-          <td style="text-align:right" th:text="${'$' + #numbers.formatDecimal(detalle.descuento_Unitario, 0, 'COMMA', 2, 'POINT')}"></td>
-          <td style="text-align:right"><strong th:text="${'$' + #numbers.formatDecimal(detalle.total, 0, 'COMMA', 2, 'POINT')}"></strong></td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="card-body">
+        <div class="mb-3 d-flex gap-2">
+          <a th:href="@{/ventas/facturas}" class="btn btn-secondary">← Volver al Historial</a>
+          <a th:href="@{/}" class="btn btn-outline-secondary">🏠 Inicio</a>
+        </div>
 
-    <div class="totals">
-      <div class="summary">
-        <div class="row">
-          <span>Subtotal:</span>
-          <span th:text="${'$' + #numbers.formatDecimal(factura.subtotal, 0, 'COMMA', 2, 'POINT')}"></span>
+        <div class="info-box">
+          <div><strong>CLIENTE</strong></div>
+          <div class="row mt-2">
+            <div class="col-md-2"><strong>ID:</strong> <span th:text="${factura.cliente.id}"></span></div>
+            <div class="col-md-6"><strong>Nombre:</strong> <span th:text="${factura.cliente.nombre + ' ' + factura.cliente.apellido}"></span></div>
+            <div class="col-md-4"><strong>Email:</strong> <span th:text="${factura.cliente.correo}"></span></div>
+          </div>
         </div>
-        <div class="row">
-          <span>Descuento total:</span>
-          <span th:text="${'$' + #numbers.formatDecimal(factura.descuento_Total, 0, 'COMMA', 2, 'POINT')}"></span>
+
+        <div class="details-title">DETALLES DE COMPRA</div>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 60px;">Item</th>
+                <th>Descripción</th>
+                <th style="width: 80px;">Cant.</th>
+                <th style="width: 120px;" class="text-end">Vlr Unit.</th>
+                <th style="width: 120px;" class="text-end">Subtotal</th>
+                <th style="width: 120px;" class="text-end">Dcto.</th>
+                <th style="width: 120px;" class="text-end">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="detalle : ${detalles}">
+                <td class="text-center" th:text="${detalle.nro_Item}"></td>
+                <td th:text="${detalle.producto.nombre}"></td>
+                <td class="text-center" th:text="${detalle.cantidad}"></td>
+                <td class="text-end" th:text="${'$' + #numbers.formatDecimal(detalle.valor, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td class="text-end" th:text="${'$' + #numbers.formatDecimal(detalle.subtotal, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td class="text-end" th:text="${'$' + #numbers.formatDecimal(detalle.descuento_Unitario, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td class="text-end"><strong th:text="${'$' + #numbers.formatDecimal(detalle.total, 0, 'COMMA', 2, 'POINT')}"></strong></td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(detalles)}">
+                <td colspan="7" class="text-center text-muted"><em>No hay productos agregados a esta factura</em></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="row total">
-          <span>TOTAL A PAGAR:</span>
-          <span th:text="${'$' + #numbers.formatDecimal(factura.valor_total, 0, 'COMMA', 2, 'POINT')}"></span>
+
+        <div class="row justify-content-end mt-4">
+          <div class="col-md-5">
+            <div class="total-section">
+              <div class="d-flex justify-content-between mb-2">
+                <span><strong>Subtotal:</strong></span>
+                <span th:text="${'$' + #numbers.formatDecimal(factura.subtotal, 0, 'COMMA', 2, 'POINT')}"></span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span><strong>Descuento Total:</strong></span>
+                <span class="text-danger" th:text="${'$' + #numbers.formatDecimal(factura.descuento_Total, 0, 'COMMA', 2, 'POINT')}"></span>
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between">
+                <span><strong style="font-size: 1.1em;">TOTAL A PAGAR:</strong></span>
+                <span class="text-success" style="font-size: 1.2em; font-weight: 700;" th:text="${'$' + #numbers.formatDecimal(factura.valor_total, 0, 'COMMA', 2, 'POINT')}"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-center mt-4">
+          <a th:href="@{/}" class="btn btn-success btn-lg">Guardar y Finalizar</a>
+          <a th:href="@{/}" class="btn btn-secondary btn-lg">🏠 Volver al Inicio</a>
         </div>
       </div>
     </div>
