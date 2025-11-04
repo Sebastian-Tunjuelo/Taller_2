@@ -1,3 +1,6 @@
+CREATE DATABASE tienda_db;
+USE tienda_db;
+
 INSERT INTO clientes ( nombre, apellido, correo, create_at, estado) VALUES
 ('Juan',  'Perez',  'juan.perez@example.com',  '2025-09-01', true),
 ('Ana',   'Gomez',  'ana.gomez@example.com',   '2025-08-20', true),
